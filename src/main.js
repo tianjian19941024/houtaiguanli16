@@ -11,6 +11,7 @@ import 'normalize.css'
 import axios from 'axios';// 不是vue插件, 导入之后只能在当前模块使用
 import api, { domain } from './js/api.js' 
 // import api, { domain } from './js/api.js'//有名字的域名要加{},没名字默认的不加直接写
+import './less/index.less'
 
 Vue.use(ElementUI)
  
