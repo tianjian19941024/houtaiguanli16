@@ -2,12 +2,12 @@
     <div class="login">
          <section>
           <!-- model用来设置表单所有字段, rules用来设置表单校验规则的(可省略, 但是如果需要表单校验功能, 必须写)  -->
-            <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+           <el-form :model="ruleForm2" :rules="rules2" label-position="top" status-icon ref="ruleForm2" label-width="100px" class="demo-ruleForm">
 
              <!-- label用来设置表单提示文字, prop用来指定当前表单代表的字段名(可省略, 但是如果需要表单校验与重置功能, 必须写) -->
              <el-form-item label="账号" prop="uname">
                <!-- v-model双向数据绑定, 需要绑定data里的数据, 将来要把这些数据提交给后端 -->
-                <el-input type="password" v-model="ruleForm2.uname" auto-complete="off"></el-input>
+                <el-input type="text" v-model="ruleForm2.uname" auto-complete="off"></el-input>
               </el-form-item>
 
               <el-form-item label="密码" prop="upwd">
@@ -15,8 +15,8 @@
               </el-form-item>
 
               <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm2')">登陆</el-button>
-                <el-button @click="resetForm('ruleForm2')">重置</el-button>
+                <el-button type="danger" @click="submitForm('ruleForm2')">登陆</el-button>
+                <el-button type="info" @click="resetForm('ruleForm2')">重置</el-button>
               </el-form-item>
 
             </el-form>
@@ -62,8 +62,14 @@
         login(){
         // post请求的第二个参数是发送的数据, 这里直接把data里的表单对象传过去 可以直接用this可以拿到
         //在main.js中把方法添加到Vue原型 可以直接用this.$调用
-        this.$http.post(this.$api.login,this.ruleForm2).then(()=>{
-            this.$alert('登陆成功');
+        this.$http.post(this.$api.login,this.ruleForm2).then((res)=>{
+            console.log(res.data)
+            if(res.data.status == 0){
+               this.$alert('登陆成功');
+            }else{
+                this.$alert(res.data.message)
+            }
+            
         });
         },
 
@@ -96,6 +102,7 @@
          width:400px;
          height:300px;
          margin:0 auto;
+         padding: 10px 20px;
          position: relative;
          top:50%;
          transform:translateY(-50%);
