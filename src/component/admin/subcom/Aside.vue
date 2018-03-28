@@ -1,6 +1,6 @@
 <template>
     <div>
-        注册
+        公共左侧组件
     </div>
 </template>
 
