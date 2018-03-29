@@ -48,7 +48,7 @@
             height:100%;
         }
 
-        // &在less中是对上级选择器的引用, 书写方便
+         //&在less中是对上级选择器的引用, 书写方便
         &_content {
             background-color:red;
         } 
