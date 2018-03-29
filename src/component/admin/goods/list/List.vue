@@ -14,7 +14,7 @@
 
             <div class="list_btns_right">
                 <el-input placeholder="请输入商品名称" prefix-icon="el-icon-search" 
-                    label-width="200px" size="mini">
+                    label-width="200px" size="mini" v-model="apiQuery.searchvalue"  @blur="search">
                 </el-input>
             </div>
         </section>
@@ -61,6 +61,12 @@
     export default {
         data() {
             return {
+               // 搜索
+               apiQuery: {
+                pageIndex: 1,
+                pageSize:10,
+                searchvalue:''
+               },
                 tableData3: [                  
                 ],
                 multipleSelection: []
@@ -69,10 +75,16 @@
 
         methods: {
 
+            // 搜索
+            search() {
+              this.getGoodsData();
+            },
+
             // 获取商品列表数据
             getGoodsData() {
                 // 这个接口需要pageIndex指定页, pageSize指定每页数量, searchvalue用于商品搜索
-                this.$http.get(this.$api.gsList +"?pageIndex=1&pageSize=10").then((res)=>{
+                let api = `${this.$api.gsList}?pageIndex=${this.apiQuery.pageIndex}&pageSize=${this.apiQuery.pageSize}&searchvalue=${this.apiQuery.searchvalue}`
+                this.$http.get(api).then((res)=>{
                      if(res.data.status == 0){
                         this.tableData3 = res.data.message; // 把请求回来的数据覆盖原data数量, 表格就会自动刷新
                      }
