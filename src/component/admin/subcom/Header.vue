@@ -19,7 +19,7 @@
     export default {
         data() {
             return{
-                uname:localStorage.getItem('uname')
+                uname:localStorage.getItem('uname')// 从storage获取刚刚登陆的用户名
             }
         },
     methods: {
