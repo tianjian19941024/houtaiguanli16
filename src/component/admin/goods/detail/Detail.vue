@@ -1,7 +1,7 @@
 <template>
     <div>
-          购物车
-    </div>
+        商品详情
+   </div>
 </template>
 
 <script>
