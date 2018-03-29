@@ -10,7 +10,7 @@
         <section class="list_btns">
             <el-button plain size="mini" icon="el-icon-plus">新增</el-button>
             <el-button plain size="mini" icon="el-icon-check">全选</el-button>
-            <el-button plain size="mini" icon="el-icon-close">删除</el-button>
+            <el-button plain size="mini" icon="el-icon-close" @click="del">删除</el-button>
 
             <div class="list_btns_right">
                 <el-input placeholder="请输入商品名称" prefix-icon="el-icon-search" 
@@ -20,7 +20,7 @@
         </section>
         <!-- 大表格 -->
         <!-- data属性用来配置表格数据  -->
-        <el-table ref="multipleTable" :data="tableData3" style="width: 100%">
+        <el-table @selection-change="change" ref="multipleTable" :data="tableData3" style="width: 100%">
     <!-- type为selection, 即多选框 -->    
     <el-table-column type="selection" width="55"></el-table-column>
      <!-- label用来设置当前列的表头 -->
@@ -67,6 +67,8 @@
                 pageSize:10,
                 searchvalue:''
                },
+               // 被选中的商品数据
+                selectedGoodsList: [],
                 tableData3: [                  
                 ],
                 multipleSelection: []
@@ -74,8 +76,8 @@
         },
 
         methods: {
-
-            // 搜索
+            // 编写供自己使用的方法
+            // 搜索功能
             search() {
               this.getGoodsData();
             },
@@ -91,6 +93,22 @@
                 })
             },
             
+            // 监听多选框状态的变化, 参数可以拿到被选的商品数据
+            change(selection) {
+              this.selectedGoodsList = selection;
+            },
+
+            // 删除按钮
+            del() {
+              let delIDS = this.selectedGoodsList.map(v =>v.id);// 提取所有被选商品的id
+              this.$http.get(this.$api.gsDel + delIDS).then((res)=>{
+                // 删除成功后重新获取数据进行渲染
+                if(res.data.status ==0){
+                  this.getGoodsData();
+                }
+              })
+            },  
+
             toggleSelection(rows) {
                 if (rows) {
                     rows.forEach(row => {
@@ -107,6 +125,7 @@
         },
 
         // 页面一上来就自动调用接口获取表格数据进行展示
+        // 当组件初始化完毕, 并且数据可用时, 被自动调用
         created(){
            this.getGoodsData();
         }
