@@ -71,7 +71,10 @@
                   // 使用了路由插件之后, 组件实例就拥有了该对象, 对象有一个push方法, 可以进行路由跳转
                   // 保存用户姓名
                   localStorage.setItem('uname',res.data.message.uname);
-                  this.$router.push({name:'admin'});
+                  
+                  let nextPage = this.$route.query.next ||'admin';
+                  // 登陆成功后, 跳转到用户未登陆前要访问的页面
+                  this.$router.push({ path:nextPage });
                  }
                });
             }else{

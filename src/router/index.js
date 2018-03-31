@@ -59,7 +59,7 @@ router.beforeEach((to, from, next) => {
             if(islogin){
                next(); 
             }else{
-                 next({name: 'login'});
+                 next({name: 'login', query: {next: to.fullPath}});
             }
         }
 
